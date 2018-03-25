@@ -105,4 +105,4 @@ venv.bak/
 # End of https://www.gitignore.io/api/python
 
 # Secret key for development
-dev-key.json
+service_account_creds.json

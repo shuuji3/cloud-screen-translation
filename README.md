@@ -10,4 +10,11 @@
 1. Click *Capture and Translation* button on the *Main Window*.
 1. The detected Japanese text will be appended in the above textbox and the translated English in the bottom.
 
+## Known bugs
+- Capture window need to be in the main display. Otherwise, cannot be recognized anything.
+
 ## Development
+1. Prepare your own [service account key of Google Cloud Platform](https://cloud.google.com/iam/docs/managing-service-account-keys) and save it as `service_account_creds.json` on this directory.
+1. Install [Python3](https://www.python.org/).
+1. Run `pip install -r requirements.txt` to install required libraries.
+1. Run `python main.py`.

@@ -9,7 +9,7 @@ from google.cloud.vision import ImageAnnotatorClient
 from google.oauth2 import service_account
 from gtts import gTTS
 
-credentials = service_account.Credentials.from_service_account_file('dev-key.json')
+credentials = service_account.Credentials.from_service_account_file('service_account_creds.json')
 translate_client = TranslateClient(credentials=credentials)
 vision_client = ImageAnnotatorClient(credentials=credentials)
 
