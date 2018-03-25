@@ -1,3 +1,4 @@
+import html
 import io
 import tempfile
 
@@ -31,7 +32,7 @@ def text_detection(image: Image) -> str:
 def translate(text: str, target_language: str = 'en', source_language: str = 'ja') -> str:
     """Translate text from PIL.Image data using Google Cloud Translate."""
     translation = translate_client.translate(text, target_language=target_language, source_language=source_language)
-    return translation['translatedText']
+    return html.unescape(translation['translatedText'])
 
 
 def speak(text: str, lang: str = 'ja') -> None:
