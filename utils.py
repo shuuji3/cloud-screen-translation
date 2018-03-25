@@ -1,5 +1,6 @@
 import html
 import io
+import os
 import tempfile
 
 import wx.adv
@@ -38,10 +39,18 @@ def translate(text: str, target_language: str = 'en', source_language: str = 'ja
 def speak(text: str, lang: str = 'ja') -> None:
     """Speek the text by Google text-to-speech voice synthesis."""
 
-    with tempfile.NamedTemporaryFile() as f:
+    with tempfile.NamedTemporaryFile(delete=False) as f:
         # Create synthesis voice data
         voice = gTTS(text=text, lang=lang)
         voice.save(f.name)
 
         # Play sound
         wx.adv.Sound.PlaySound(f.name, flags=wx.adv.SOUND_SYNC)
+
+        # Windows has a problem in making temp files
+        # ref: https://github.com/bravoserver/bravo/issues/111
+        try:
+            f.close()
+            os.unlink(f.name)
+        except FileNotFoundError:
+            pass
