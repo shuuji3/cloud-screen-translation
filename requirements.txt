@@ -1,0 +1,5 @@
+wxpython
+pillow
+google-cloud-translate
+google-cloud-vision
+gtts
