@@ -106,3 +106,5 @@ venv.bak/
 
 # Secret key for development
 service_account_creds.json
+/win-env/
+/Scripts/
