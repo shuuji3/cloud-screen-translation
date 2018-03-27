@@ -21,3 +21,11 @@
 1. Run `pip install -r requirements-dev.txt` to install required libraries for development.
 1. (For Windows) Run `pip install -r requirements-win.txt`.
 1. Run `python main.py`.
+
+## License
+
+<a href="https://www.gnu.org/graphics/license-logos.html">
+  <img width="200" src="gpl-v3-logo.png" alt="GPLv3 logo">
+</a>
+
+[GNU General Public License v3](LICENSE)

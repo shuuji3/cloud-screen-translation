@@ -106,3 +106,6 @@ venv.bak/
 
 # Secret key for development
 service_account_creds.json
+
+# Windows dist tempfile
+/dist-win/CloudScreenTranslation-v*/
