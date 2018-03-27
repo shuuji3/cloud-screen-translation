@@ -5,7 +5,7 @@
 ![Screenshot of the application](demo.png)
 
 ## Download (for Windows user)
-[CloudScreenTranslation-v0.1.0.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.1.0.zip)
+[CloudScreenTranslation-v0.1.1.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.1.1.zip)
 
 ## Usage
 1. Prepare your own [service account key of Google Cloud Platform](https://cloud.google.com/iam/docs/managing-service-account-keys) and save it as `service_account_creds.json` on this directory.
@@ -24,8 +24,16 @@
 
 ## License
 
+### Cloud Screen Translation
+
+[GNU General Public License v3](LICENSE)
+
 <a href="https://www.gnu.org/graphics/license-logos.html">
   <img width="200" src="gpl-v3-logo.png" alt="GPLv3 logo">
 </a>
 
-[GNU General Public License v3](LICENSE)
+### cmdmp3
+
+MIT License
+
+The distribution files for Windows has [cmdmp3](https://github.com/jimlawless/cmdmp3) executable to play a voice.
