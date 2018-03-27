@@ -112,7 +112,7 @@ class MainFrame(wx.Frame):
         self.append_text(self.ja_text_ctrl, ja_text)
         self.append_text(self.en_text_ctrl, en_text)
 
-        if self.speech_checkbox_checked:
+        if self.speech_checkbox_checked and ja_text != '':
             speak(ja_text)
 
     @staticmethod

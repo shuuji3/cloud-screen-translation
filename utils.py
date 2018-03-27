@@ -1,7 +1,8 @@
 import html
 import io
 import os
-import tempfile
+import platform
+import subprocess
 
 import wx.adv
 from PIL.Image import Image
@@ -17,6 +18,7 @@ vision_client = ImageAnnotatorClient(credentials=credentials)
 
 def text_detection(image: Image) -> str:
     """Detect text from PIL.Image data using Google Cloud Translate."""
+
     # Create bytestream of the given image
     bytes_io = io.BytesIO()
     image.save(bytes_io, 'png')
@@ -39,18 +41,22 @@ def translate(text: str, target_language: str = 'en', source_language: str = 'ja
 def speak(text: str, lang: str = 'ja') -> None:
     """Speek the text by Google text-to-speech voice synthesis."""
 
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        # Create synthesis voice data
-        voice = gTTS(text=text, lang=lang)
-        voice.save(f.name)
+    # Create synthesis voice data
+    temp_file = 'tmp.mp3'
+    voice = gTTS(text=text, lang=lang)
+    voice.save(temp_file)
 
-        # Play sound
-        wx.adv.Sound.PlaySound(f.name, flags=wx.adv.SOUND_SYNC)
+    # Play sound
+    system = platform.system()
+    if system == 'Windows':
+        cmd = 'cmdmp3 {}'.format(temp_file)
+        subprocess.call(cmd)
+    else:
+        wx.adv.Sound.PlaySound(temp_file, flags=wx.adv.SOUND_SYNC)
 
-        # Windows has a problem in making temp files
-        # ref: https://github.com/bravoserver/bravo/issues/111
-        try:
-            f.close()
-            os.unlink(f.name)
-        except FileNotFoundError:
-            pass
+    # Windows has a problem in making temp files
+    # ref: https://github.com/bravoserver/bravo/issues/111
+    try:
+        os.unlink(temp_file)
+    except FileNotFoundError:
+        pass
