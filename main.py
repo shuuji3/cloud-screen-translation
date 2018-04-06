@@ -45,19 +45,25 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, parent, *args, **kwargs, size=(800, 330))
         self.capture_area_pos = (200, 600)
         self.capture_area_size = (1100, 200)
-        self.speech_checkbox_checked = False
+        self.ja_speech_checkbox_checked = False
+        self.en_speech_checkbox_checked = False
 
         self.open_capture_window()
 
         translate_button = wx.Button(self, label='Capture\nand\nTranslate')
         font = wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         translate_button.SetFont(font)
-        translate_button.SetMinClientSize((50, 80))
+        translate_button.SetMinClientSize((50, 60))
+        translate_button.SetMinClientSize((50, 60))
         translate_button.Bind(wx.EVT_BUTTON, self.translate_onclick)
 
-        speech_checkbox = wx.CheckBox(self, label='Speak Japanese')
-        speech_checkbox.SetMinClientSize((130, 20))
-        speech_checkbox.Bind(wx.EVT_CHECKBOX, self.speech_checkbox_onchange)
+        ja_speech_checkbox = wx.CheckBox(self, label='Speak Japanese')
+        ja_speech_checkbox.SetMinClientSize((130, 20))
+        ja_speech_checkbox.Bind(wx.EVT_CHECKBOX, self.ja_speech_checkbox_onchange)
+
+        en_speech_checkbox = wx.CheckBox(self, label='Speak English')
+        en_speech_checkbox.SetMinClientSize((130, 20))
+        en_speech_checkbox.Bind(wx.EVT_CHECKBOX, self.en_speech_checkbox_onchange)
 
         self.ja_text_ctrl = wx.richtext.RichTextCtrl(self, style=wx.richtext.RE_CENTRE_CARET)
         self.ja_text_ctrl.SetMinSize((700, 150))
@@ -71,7 +77,8 @@ class MainFrame(wx.Frame):
 
         input_sizer = wx.BoxSizer(wx.VERTICAL)
         input_sizer.Add(translate_button, proportion=1, flag=wx.GROW)
-        input_sizer.Add(speech_checkbox)
+        input_sizer.Add(ja_speech_checkbox)
+        input_sizer.Add(en_speech_checkbox)
 
         text_sizer = wx.BoxSizer(wx.VERTICAL)
         text_sizer.Add(self.ja_text_ctrl)
@@ -91,9 +98,13 @@ class MainFrame(wx.Frame):
 
         frame = CaptureFrame(self, title='Capture window', pos=self.capture_area_pos, size=self.capture_area_size)
 
-    def speech_checkbox_onchange(self, event):
-        """Event handler on changing speech_checkbox."""
-        self.speech_checkbox_checked: bool = event.EventObject.Value
+    def ja_speech_checkbox_onchange(self, event):
+        """Event handler on changing ja_speech_checkbox."""
+        self.ja_speech_checkbox_checked: bool = event.EventObject.Value
+
+    def en_speech_checkbox_onchange(self, event):
+        """Event handler on changing ja_speech_checkbox."""
+        self.en_speech_checkbox_checked: bool = event.EventObject.Value
 
     def translate_onclick(self, event):
         """Translate the text of area and show it in the main window."""
@@ -112,8 +123,10 @@ class MainFrame(wx.Frame):
         self.append_text(self.ja_text_ctrl, ja_text)
         self.append_text(self.en_text_ctrl, en_text)
 
-        if self.speech_checkbox_checked and ja_text != '':
+        if self.ja_speech_checkbox_checked and ja_text != '':
             speech(ja_text)
+        if self.en_speech_checkbox_checked and en_text != '':
+            speech(en_text, 'en-US')
 
     @staticmethod
     def append_text(rich_text_ctrl, ja_text):
