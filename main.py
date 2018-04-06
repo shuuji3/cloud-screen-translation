@@ -2,7 +2,7 @@ import wx
 import wx.richtext
 from PIL import ImageGrab
 
-from utils import text_detection, translate, speak
+from utils import text_detection, translate, speech
 
 
 class CaptureFrame(wx.Frame):
@@ -113,7 +113,7 @@ class MainFrame(wx.Frame):
         self.append_text(self.en_text_ctrl, en_text)
 
         if self.speech_checkbox_checked and ja_text != '':
-            speak(ja_text)
+            speech(ja_text)
 
     @staticmethod
     def append_text(rich_text_ctrl, ja_text):

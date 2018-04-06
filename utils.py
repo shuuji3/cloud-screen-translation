@@ -6,14 +6,15 @@ import subprocess
 
 import wx.adv
 from PIL.Image import Image
+from google.cloud import texttospeech
 from google.cloud.translate import Client as TranslateClient
 from google.cloud.vision import ImageAnnotatorClient
 from google.oauth2 import service_account
-from gtts import gTTS
 
 credentials = service_account.Credentials.from_service_account_file('service_account_creds.json')
 translate_client = TranslateClient(credentials=credentials)
 vision_client = ImageAnnotatorClient(credentials=credentials)
+text_to_speech_client = texttospeech.TextToSpeechClient(credentials=credentials)
 
 
 def text_detection(image: Image) -> str:
@@ -38,13 +39,20 @@ def translate(text: str, target_language: str = 'en', source_language: str = 'ja
     return html.unescape(translation['translatedText'])
 
 
-def speak(text: str, lang: str = 'ja') -> None:
-    """Speek the text by Google text-to-speech voice synthesis."""
+def speech(text: str, langage_code: str = 'ja-JP') -> None:
+    """Speak the text by Google Cloud Text-to-Speech voice synthesis."""
 
     # Create synthesis voice data
     temp_file = 'tmp.mp3'
-    voice = gTTS(text=text, lang=lang)
-    voice.save(temp_file)
+    synthesis_input = texttospeech.types.SynthesisInput(text=text)
+    voice = texttospeech.types.VoiceSelectionParams(
+        language_code=langage_code,
+        ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE,
+    )
+    audio_config = texttospeech.types.AudioConfig(audio_encoding=texttospeech.enums.AudioEncoding.MP3)
+    response = text_to_speech_client.synthesize_speech(synthesis_input, voice, audio_config)
+    with open(temp_file, 'wb') as f:
+        f.write(response.audio_content)
 
     # Play sound
     system = platform.system()
