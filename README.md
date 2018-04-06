@@ -5,7 +5,7 @@
 ![Screenshot of the application](demo.png)
 
 ## Download (for Windows user)
-[CloudScreenTranslation-v0.2.0.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.2.0.zip)
+[CloudScreenTranslation-v0.3.0.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.3.0.zip)
 
 ## Usage
 1. Prepare your own [service account key of Google Cloud Platform](https://cloud.google.com/iam/docs/managing-service-account-keys) and save it as `service_account_creds.json` on this directory.
