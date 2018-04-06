@@ -5,11 +5,11 @@
 ![Screenshot of the application](demo.png)
 
 ## Download (for Windows user)
-[CloudScreenTranslation-v0.1.1.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.1.1.zip)
+[CloudScreenTranslation-v0.2.0.zip](https://github.com/shuuji3/cloud-screen-translation/raw/master/dist-win/CloudScreenTranslation-v0.2.0.zip)
 
 ## Usage
 1. Prepare your own [service account key of Google Cloud Platform](https://cloud.google.com/iam/docs/managing-service-account-keys) and save it as `service_account_creds.json` on this directory.
-1. Run `python main.py` (Windows: Extract `CloudScreenTranslation-v0.1.0.zip` and run `CloudScreenTranslation.cmd`).
+1. Run `python main.py` (Windows: Extract `CloudScreenTranslation-v0.2.0.zip` and run `CloudScreenTranslation.cmd`).
 1. Move the transparent *Capture Window* to the translation target area like the above screenshot.
 1. Click *Capture and Translation* button on the *Main Window*.
 1. The detected Japanese text will be appended in the above textbox and the translated English in the bottom.
