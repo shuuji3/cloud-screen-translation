@@ -1,3 +1,4 @@
+PyYAML
 wxpython
 pillow
 google-cloud-translate

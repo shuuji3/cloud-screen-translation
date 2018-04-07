@@ -45,8 +45,8 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, parent, *args, **kwargs, size=(800, 330))
         self.capture_area_pos = (200, 600)
         self.capture_area_size = (1100, 200)
-        self.ja_speech_checkbox_checked = False
-        self.en_speech_checkbox_checked = False
+        self.ja_speech_checkbox_checked = True
+        self.en_speech_checkbox_checked = True
 
         self.open_capture_window()
 
@@ -54,14 +54,15 @@ class MainFrame(wx.Frame):
         font = wx.Font(14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
         translate_button.SetFont(font)
         translate_button.SetMinClientSize((50, 60))
-        translate_button.SetMinClientSize((50, 60))
         translate_button.Bind(wx.EVT_BUTTON, self.translate_onclick)
 
         ja_speech_checkbox = wx.CheckBox(self, label='Speak Japanese')
+        ja_speech_checkbox.SetValue(True)
         ja_speech_checkbox.SetMinClientSize((130, 20))
         ja_speech_checkbox.Bind(wx.EVT_CHECKBOX, self.ja_speech_checkbox_onchange)
 
         en_speech_checkbox = wx.CheckBox(self, label='Speak English')
+        en_speech_checkbox.SetValue(True)
         en_speech_checkbox.SetMinClientSize((130, 20))
         en_speech_checkbox.Bind(wx.EVT_CHECKBOX, self.en_speech_checkbox_onchange)
 
@@ -117,8 +118,8 @@ class MainFrame(wx.Frame):
 
         # Detect text & translate it by Google Cloud
         image = ImageGrab.grab((x * scale, y * scale, (x + w) * scale, (y + h) * scale))
-        ja_text = text_detection(image).replace('\n', '　').strip()
-        en_text = translate(ja_text).strip()
+        ja_text = text_detection(image)
+        en_text = translate(ja_text)
 
         self.append_text(self.ja_text_ctrl, ja_text)
         self.append_text(self.en_text_ctrl, en_text)

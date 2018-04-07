@@ -2,9 +2,11 @@ import html
 import io
 import os
 import platform
+import re
 import subprocess
 
 import wx.adv
+import yaml
 from PIL.Image import Image
 from google.cloud import texttospeech
 from google.cloud.translate import Client as TranslateClient
@@ -30,13 +32,50 @@ def text_detection(image: Image) -> str:
     res = vision_client.text_detection({
         'content': content,
     })
-    return res.full_text_annotation.text
+
+    # Filter small characters
+    def _calc_height(word):
+        """Calculate the height of the word boundary box."""
+        ys = list(map(lambda v: v.y, word.bounding_box.vertices))
+        return max(ys) - min(ys)
+
+    texts = []
+    max_height = 0
+    for page in res.full_text_annotation.pages:
+        for block in page.blocks:
+            for paragraph in block.paragraphs:
+                max_height = max(max_height, max(map(_calc_height, paragraph.words)))
+        for block in page.blocks:
+            for paragraph in block.paragraphs:
+                for word in paragraph.words:
+                    if _calc_height(word) > max_height * 0.60:
+                        texts.append(''.join([symbol.text for symbol in word.symbols]))
+            texts.append('\n')
+
+    return re.sub('\n+', '　', ' '.join(texts)).strip()
 
 
 def translate(text: str, target_language: str = 'en', source_language: str = 'ja') -> str:
     """Translate text from PIL.Image data using Google Cloud Translate."""
-    translation = translate_client.translate(text, target_language=target_language, source_language=source_language)
-    return html.unescape(translation['translatedText'])
+    translation = translate_client.translate(
+        replace_words(text),
+        target_language=target_language,
+        source_language=source_language,
+    )
+    translated_text = html.unescape(translation['translatedText']).strip()
+    return translated_text
+
+
+def replace_words(text: str) -> str:
+    """Replace words in text by using the replace table."""
+
+    with open('replace_table.yaml') as f:
+        replace_table = yaml.load(f)
+
+    for item in replace_table:
+        text = re.sub(item['pattern'], item['replace'], text)
+
+    return text
 
 
 def speech(text: str, langage_code: str = 'ja-JP') -> None:
